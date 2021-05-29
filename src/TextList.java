@@ -112,7 +112,7 @@ public class TextList {
                 //if same
                 if (!done && word.compareTo(cur.getWord()) == 0)
                 {
-                    cur.addAppear();
+                    cur.setAppear(cur.getAppear() + 1);
                     done = true;
                 }
                 //in the middle
@@ -281,7 +281,7 @@ public class TextList {
             {
                 if (cur.getNext() !=null)
                     if (cur.getWord().compareTo(cur.getNext().getWord()) == 0) {
-                        cur.addAppear();
+                        cur.setAppear(cur.getAppear() + 1);
                         cur.setNext(cur.getNext().getNext());
 
                     }

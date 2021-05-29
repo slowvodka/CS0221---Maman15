@@ -58,11 +58,13 @@ public class WordNode {
         return _word;
     }//end of getWord
 
+
     /**
-     * add to the counter of the word inside the Wordnode + 1
+     * set how many times specific word appeared in the original text
+     * @param app - int number of times a word appeared
      */
-    public void addAppear(){
-        _appear = _appear + 1;
+    public void setAppear(int app){
+        _appear = app;
     }// end of addAppear
 
     /**

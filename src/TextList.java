@@ -32,20 +32,19 @@ public class TextList {
         this();
         String text1 = text + " ";
 
-        //how many words O(n)
+        //how many words O(n) since checks every position if it is " "
         int wordCounter = 0;
         for (int i = 0; i < text1.length(); i++) {
             if (text1.charAt(i) == ' ')
                 wordCounter++;
         }
 
-        String[] textAsArray = new String[wordCounter];
 
         int endOfWord = 0;
         String word = "";
-        //breaking and adding the text to unsorted list \O(n)
-        int i = 0;
-        //complexity is O(n) - because we know the worst case is a m<n word length so complexity
+
+        //complexity is O(n) - because the longest word is around 52 characters so it is constant
+
         //of indexof here is 1
         while (endOfWord != -1 && text1.length() > 0 )
         {
@@ -53,18 +52,13 @@ public class TextList {
             if (endOfWord != -1)
             {
                 word = text1.substring(0, endOfWord);
-                textAsArray[i] = word;
-                i = i+1;
+                addToTop(word);
                 text1 = text1.substring(endOfWord+1);
             }
         }
 
-        //complexity O(nlog(n))
-        mergeSort(textAsArray,wordCounter);
+        this._first = this.mergeSort(this._first);
 
-        //compexity O(n)
-        for (i = wordCounter-1 ; i>=0; i-- )
-            addToTop(textAsArray[i]);
 
         //Complexity (O(n)
         mergeAppear();
@@ -270,7 +264,7 @@ public class TextList {
 
     /**
      * private method
-     * iterates over the list, removes duplicates and add them to one node
+     * iterates over the list, removes duplicates and add them to one node, updates _Appear
      */
     private void mergeAppear(){
         //list not empty
@@ -319,57 +313,85 @@ public class TextList {
     }// end of addToTop
 
     /**
-     * implementation of merge sort
-     */
-    private void mergeSort(String[] a, int n) {
-        if (n < 2) {
-            return;
-        }
-        int mid = n / 2;
-        String[] l = new String[mid];
-        String[] r = new String[n - mid];
-
-        for (int i = 0; i < mid; i++) {
-            l[i] = a[i];
-        }
-        for (int i = mid; i < n; i++) {
-            r[i - mid] = a[i];
-        }
-        mergeSort(l, mid);
-        mergeSort(r, n - mid);
-
-        merge(a, l, r, mid, n - mid);
-
-    }// end of mergeSort
-
-    /**
-     * implementation of merge sort
-     */
-    private void merge(String[] a, String[] l, String[] r, int left, int right) {
-
-        int i = 0, j = 0, k = 0;
-        while (i < left && j < right) {
-            if (l[i].compareTo(r[j]) <= 0) {
-                a[k++] = l[i++];
-            }
-            else {
-                a[k++] = r[j++];
-            }
-        }
-        while (i < left) {
-            a[k++] = l[i++];
-        }
-        while (j < right) {
-            a[k++] = r[j++];
-        }
-    }//end of merge
-
-    /**
      * private method to check if list is empty
      * @return boolean - true if list is empty
      */
     private boolean isEmpty(){
         return _first==null;
     }//end of isEmpty - private
+
+    //implement mergesort
+
+    /**
+     * private method that implements merge sort for lists
+     * @param a wordnode
+     * @param b wordnode
+     * @return wordnode
+     */
+    private WordNode sortedMerge(WordNode a, WordNode b)
+    {
+        WordNode result = null;
+        // Base cases
+        if (a == null)
+            return b;
+        if (b == null)
+            return a;
+
+        // Pick either a or b, and recur
+        if (a.getWord().compareTo(b.getWord()) < 0 ) {
+            result = a;
+            result.setNext(sortedMerge(a.getNext(), b));
+        }
+        else {
+            result = b;
+            result.setNext(sortedMerge(a, b.getNext())) ;
+        }
+        return result;
+    }
+
+    /**
+     * this method implements list merge sort
+     * @param h - Wordnode
+     * @return Wordenode
+     */
+    private WordNode mergeSort(WordNode h)
+    {
+        // Base case : if head is null
+        if (h == null || h.getNext() == null) {
+            return h;
+        }
+
+        // get the middle of the list
+        WordNode middle = getMiddle(h);
+        WordNode nextofmiddle = middle.getNext();
+
+        // set the next of middle node to null
+        middle.setNext(null);
+
+        // Apply mergeSort on left list
+        WordNode left = mergeSort(h);
+
+        // Apply mergeSort on right list
+        WordNode right = mergeSort(nextofmiddle);
+
+        // Merge the left and right lists
+        WordNode sortedlist = sortedMerge(left, right);
+        return sortedlist;
+    }
+
+    /** Utility function to get the middle of the linked list **/
+    private static WordNode getMiddle(WordNode head)
+    {
+        if (head == null)
+            return head;
+
+        WordNode slow = head, fast = head;
+
+        while (fast.getNext() != null && fast.getNext().getNext() != null) {
+            slow = slow.getNext();
+            fast = fast.getNext().getNext();
+        }
+        return slow;
+    }
 
 }//end of TextList

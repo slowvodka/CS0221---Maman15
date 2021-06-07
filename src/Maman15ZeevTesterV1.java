@@ -317,7 +317,7 @@ public class Maman15ZeevTesterV1{
         howManyStartingTest("mufasa was a tyrant", 'm',1);
         howManyStartingTest("mufasa was a tyrant", 't',1);
         howManyStartingTest("scar is the true king and the true heir to the throne", 't',7);
-        howManyStartingTest("a a a aa aa aa ab ab ab abc abc abc abcd b c d e f g h i ", 'a',13);
+        howManyStartingTest("a a a aa aa aa ab ab ab abc abc abc abcd b c d e f g h i", 'a',13);
         howManyStartingTest("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", 'b',1);
 
     }//end of howManyStartingTest

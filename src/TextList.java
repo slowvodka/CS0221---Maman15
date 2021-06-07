@@ -13,6 +13,8 @@ public class TextList {
     //constructors
     /**
      * default constructor, initializes first
+     * time Complexity - O(1)
+     * space Complexity - O(1)
      */
     public TextList (){
         _first = null;
@@ -20,11 +22,12 @@ public class TextList {
 
     /**
      * constructor that takes a text of words(only small letters a-z)
-     * saparated by spaces and breaks it to a list.
+     * separated by spaces and breaks it to a list.
      * the list is sorted lexicographically, every unique word gets only one node but count
      * the number of appearances of it
      *
      * time Complexity - O(nlogn) (because of merge sort)
+     * space Complexity - O(n) (because of merge sort)
      *
      * @param text - String - words separated by one space
      */
@@ -57,6 +60,7 @@ public class TextList {
             }
         }
 
+        //list merge sort - complexity O(n*logn)
         this._first = this.mergeSort(this._first);
 
 
@@ -72,7 +76,8 @@ public class TextList {
      * word is added in the right place alphabetically.
      * @param word - String - a words to add
      *
-     * Time complexity (O(n)
+     * Time complexity O(n)
+     * space complexity O(1)
      */
     public void addToData (String word) {
         boolean done = false;
@@ -129,6 +134,7 @@ public class TextList {
      * @return String - list as a string
      *
      * Time complexity O(n)
+     * space complexity O(1)
      */
     public String toString(){
         String s = "";
@@ -145,6 +151,7 @@ public class TextList {
      * @return int - how many words
      *
      * Time complexity O(n)
+     * space complexity O(1)
      *
      */
     public int howManyWords (){
@@ -161,6 +168,7 @@ public class TextList {
      * @return int - how many unique words
      *
      * Time complexity O(n)
+     * space complexity O(1)
      *
      */
     public int howManyDifferentWords (){
@@ -178,6 +186,7 @@ public class TextList {
      * @return - String - the most frequent word in list
      *
      * Time complexity O(n)
+     * space complexity O(1)
      *
      */
     public String mostFrequentWord (){
@@ -199,6 +208,7 @@ public class TextList {
      * @return int - how many words start with this char
      *
      * Time complexity O(n)
+     * space complexity O(1)
      *
      */
     public int howManyStarting (char letter){
@@ -320,8 +330,6 @@ public class TextList {
         return _first==null;
     }//end of isEmpty - private
 
-    //implement mergesort
-
     /**
      * private method that implements merge sort for lists
      * @param a wordnode
@@ -337,7 +345,7 @@ public class TextList {
         if (b == null)
             return a;
 
-        // Pick either a or b, and recur
+        // Pick either a or b, and recur (by comparing words)
         if (a.getWord().compareTo(b.getWord()) < 0 ) {
             result = a;
             result.setNext(sortedMerge(a.getNext(), b));
@@ -350,7 +358,7 @@ public class TextList {
     }
 
     /**
-     * this method implements list merge sort
+     * this method implements *list* merge sort
      * @param h - Wordnode
      * @return Wordenode
      */
